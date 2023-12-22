@@ -1,5 +1,7 @@
 <script lang="ts">
-    export let cardId: string
+    import type { ColorCardId } from "$lib/shared"
+
+    export let cardId: ColorCardId
 
     let image: HTMLImageElement
     let percentages: { [key: string]: number } | undefined = undefined
@@ -106,5 +108,5 @@
         {/if}
     </div>
 
-    <img bind:this={image} src={`/cards/${cardId}.png`} alt="Abstract shapes" class="border border-5 rounded w-100" />
+    <img bind:this={image} src={`/cards/${cardId}.png`} alt="Abstract shapes" class="border border-5 rounded-5 w-100" />
 </div>
