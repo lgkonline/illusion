@@ -103,7 +103,9 @@
                                   : color === "blue"
                                     ? "info"
                                     : "warning"
-                        } ${currentArrowCard === color ? "text-decoration-underline" : ""} text-white`}
+                        } ${currentArrowCard === color ? "text-decoration-underline" : ""} ${
+                            color !== "yellow" ? "text-white" : ""
+                        }`}
                     >
                         <span>{color}: </span> <strong>{Math.round(percentages[color])}%</strong>
                     </div>
