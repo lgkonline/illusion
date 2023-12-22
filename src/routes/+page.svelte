@@ -1,7 +1,7 @@
 <script lang="ts">
     import "../style/main.scss"
     import ColorCard from "$lib/ColorCard.svelte"
-    import { ArrowClockwise, ArrowDown } from "svelte-bootstrap-icons"
+    import { ArrowClockwise, ArrowDown, Dash, Plus } from "svelte-bootstrap-icons"
     import { colorToBootstrapVariant, type ArrowCardId, type ColorCardId } from "$lib/shared"
     import { onMount } from "svelte"
 
@@ -10,8 +10,10 @@
     let row: ColorCardId[] = []
 
     let doubt = false
+    let padding = 0
 
-    const COLOR_CARDS: ColorCardId[] = ["001", "002"]
+    const COLOR_CARDS: ColorCardId[] = ["001", "002", "003", "004", "005", "006", "007", "008", "009", "010"]
+    // const COLOR_CARDS: ColorCardId[] = ["010"]
 
     let colorCards: ColorCardId[] = [...COLOR_CARDS]
 
@@ -68,13 +70,13 @@
     })
 </script>
 
-<div class="container-fluid d-flex flex-column py-1" style="min-height: 100vh;">
-    <main class="flex-grow-1">
-        {#if currentColorCard !== undefined}
+<div class="container-fluid d-flex flex-column py-1 gap-3">
+    <main class="flex-grow-1" style={`padding-left: ${padding}px; padding-right: ${padding}px`}>
+        {#if currentArrowCard !== undefined && currentColorCard !== undefined}
             <div class="row">
                 <div class="col">
                     <div class="sticky-top">
-                        <ColorCard cardId={currentColorCard} allowShowPercentages={doubt} />
+                        <ColorCard cardId={currentColorCard} {currentArrowCard} allowShowPercentages={doubt} />
 
                         <button
                             type="button"
@@ -94,6 +96,36 @@
                                 newRound()
                             }}>Neue Runde</button
                         >
+
+                        <label for="zoomBtnGroup" class="form-label mt-5">Zoomen</label>
+
+                        <div class="btn-group" role="group" id="zoomBtnGroup">
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                disabled={padding >= 300}
+                                on:click={() => {
+                                    padding = padding + 50
+                                }}><Dash /></button
+                            >
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                disabled={padding === 0}
+                                on:click={() => {
+                                    padding = padding - 50
+                                }}><Plus /></button
+                            >
+
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                disabled={padding === 0}
+                                on:click={() => {
+                                    padding = 0
+                                }}>Reset</button
+                            >
+                        </div>
                     </div>
                 </div>
 
@@ -123,7 +155,7 @@
                     >
 
                     {#each row as cardId, index}
-                        <ColorCard {cardId} allowShowPercentages={doubt} />
+                        <ColorCard {cardId} {currentArrowCard} allowShowPercentages={doubt} />
 
                         <button
                             type="button"
@@ -158,7 +190,7 @@
                 location.reload()
             }}
             aria-label="Reload"
-            class="btn btn-light"><ArrowClockwise /></a
+            class="btn btn-light"><ArrowClockwise /> App neu starten</a
         >
     </footer>
 </div>

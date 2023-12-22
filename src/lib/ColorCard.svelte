@@ -1,8 +1,9 @@
 <script lang="ts">
-    import type { ColorCardId } from "$lib/shared"
+    import type { ArrowCardId, ColorCardId } from "$lib/shared"
 
     export let cardId: ColorCardId
     export let allowShowPercentages: boolean
+    export let currentArrowCard: ArrowCardId
 
     let image: HTMLImageElement
     let percentages: { [key: string]: number } | undefined = undefined
@@ -102,7 +103,7 @@
                                   : color === "blue"
                                     ? "info"
                                     : "warning"
-                        } text-white`}
+                        } ${currentArrowCard === color ? "text-decoration-underline" : ""} text-white`}
                     >
                         <span>{color}: </span> <strong>{Math.round(percentages[color])}%</strong>
                     </div>
