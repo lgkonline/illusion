@@ -2,6 +2,8 @@
     export let cardId: string
 
     let image: HTMLImageElement
+    let percentages: { [key: string]: number } | undefined = undefined
+    let showPercentages = false
 
     function checkPercentages(image: HTMLImageElement) {
         // Warte, bis das Bild geladen ist
@@ -47,7 +49,7 @@
                     color = "green"
                 } else if (b > r && b > g) {
                     color = "blue"
-                } else if (r > b && g > b) {
+                } else if (r > 200 && g > 200 && b < 100) {
                     color = "yellow"
                 }
                 // Zähle die Anzahl der Pixel jeder Farbe
@@ -57,7 +59,7 @@
             }
             // Berechne die Farbanteile in Prozent
             const total = width * height
-            const percentages = {} as { [key: string]: number }
+            percentages = {}
             for (let color in colors) {
                 percentages[color] = (colors[color] / total) * 100
             }
@@ -73,11 +75,36 @@
     }
 </script>
 
-<img bind:this={image} src={`/cards/${cardId}.png`} alt="Abstract shapes" />
+<div class="position-relative">
+    <div class="position-absolute p-3">
+        <button
+            type="button"
+            class="btn btn-primary"
+            on:click={() => {
+                showPercentages = !showPercentages
+            }}>Zeige Werte</button
+        >
 
-<style>
-    img {
-        border: 0.25rem solid black;
-        border-radius: 1rem;
-    }
-</style>
+        {#if showPercentages && percentages}
+            <div class="card overflow-hidden">
+                {#each Object.keys(percentages) as color}
+                    <div
+                        class={`p-3 bg-${
+                            color === "red"
+                                ? "danger"
+                                : color === "green"
+                                  ? "success"
+                                  : color === "blue"
+                                    ? "info"
+                                    : "warning"
+                        } text-white`}
+                    >
+                        <span>{color}: </span> <strong>{Math.round(percentages[color])}%</strong>
+                    </div>
+                {/each}
+            </div>
+        {/if}
+    </div>
+
+    <img bind:this={image} src={`/cards/${cardId}.png`} alt="Abstract shapes" class="border border-5 rounded w-100" />
+</div>
