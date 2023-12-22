@@ -2,6 +2,7 @@
     import type { ColorCardId } from "$lib/shared"
 
     export let cardId: ColorCardId
+    export let allowShowPercentages: boolean
 
     let image: HTMLImageElement
     let percentages: { [key: string]: number } | undefined = undefined
@@ -79,16 +80,18 @@
 
 <div class="position-relative">
     <div class="position-absolute p-3">
-        <button
-            type="button"
-            class="btn btn-primary"
-            on:click={() => {
-                showPercentages = !showPercentages
-            }}>Zeige Werte</button
-        >
+        {#if allowShowPercentages}
+            <button
+                type="button"
+                class="btn btn-primary"
+                on:click={() => {
+                    showPercentages = !showPercentages
+                }}>Zeige Werte</button
+            >
+        {/if}
 
         {#if showPercentages && percentages}
-            <div class="card overflow-hidden">
+            <div class="card overflow-hidden mt-1 shadow">
                 {#each Object.keys(percentages) as color}
                     <div
                         class={`p-3 bg-${

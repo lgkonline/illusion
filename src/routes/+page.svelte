@@ -9,6 +9,8 @@
     let currentColorCard: ColorCardId | undefined = undefined
     let row: ColorCardId[] = []
 
+    let doubt = false
+
     const COLOR_CARDS: ColorCardId[] = ["001", "002"]
 
     let colorCards: ColorCardId[] = [...COLOR_CARDS]
@@ -70,7 +72,30 @@
     <main class="flex-grow-1">
         {#if currentColorCard !== undefined}
             <div class="row">
-                <div class="col"><div class="sticky-top"><ColorCard cardId={currentColorCard} /></div></div>
+                <div class="col">
+                    <div class="sticky-top">
+                        <ColorCard cardId={currentColorCard} allowShowPercentages={doubt} />
+
+                        <button
+                            type="button"
+                            class="btn btn-lg btn-primary w-100 mt-5"
+                            disabled={doubt}
+                            on:click={() => {
+                                doubt = true
+                            }}>Anzweifeln</button
+                        >
+                        <button
+                            type="button"
+                            class="btn btn-lg btn-primary w-100 mt-3"
+                            disabled={!doubt}
+                            on:click={() => {
+                                doubt = false
+                                row = []
+                                newRound()
+                            }}>Neue Runde</button
+                        >
+                    </div>
+                </div>
 
                 <div class="col d-flex gap-1 flex-column">
                     {#if currentArrowCard !== undefined}
@@ -98,7 +123,7 @@
                     >
 
                     {#each row as cardId, index}
-                        <ColorCard {cardId} />
+                        <ColorCard {cardId} allowShowPercentages={doubt} />
 
                         <button
                             type="button"
@@ -112,15 +137,6 @@
                             }}>Hier ablegen</button
                         >
                     {/each}
-
-                    <button
-                        type="button"
-                        class="btn btn-primary"
-                        on:click={() => {
-                            row = []
-                            newRound()
-                        }}>Neue Runde</button
-                    >
                 </div>
             </div>
         {:else}
