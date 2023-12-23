@@ -1,71 +1,75 @@
-<img src="001.png" id="image" />
-
-<script>
-    //   // Erstelle ein Image-Objekt
-    //   const image = new Image();
-    //   // Lade das Bild von einer URL
-    //   image.src = "/001.png";
-
-    const image = document.getElementById("image")
-
-    // Warte, bis das Bild geladen ist
-    image.onload = function () {
-        // Erhalte die Abmessungen des Bildes
-        const width = image.naturalWidth
-        const height = image.naturalHeight
-        // Erstelle ein Canvas-Element
-        const canvas = document.createElement("canvas")
-        // Setze die Größe des Canvas gleich der des Bildes
-        canvas.width = width
-        canvas.height = height
-        // Erhalte den Kontext des Canvas
-        const context = canvas.getContext("2d")
-        // Zeichne das Bild auf den Canvas
-        context.drawImage(image, 0, 0)
-        // Erhalte die Pixelwerte des Canvas
-        const imageData = context.getImageData(0, 0, width, height)
-        // Erhalte die Daten als Uint8ClampedArray
-        const data = imageData.data
-        // Erstelle ein Objekt, um die Anzahl der Pixel jeder Farbe zu speichern
-        const colors = {
-            red: 0,
-            green: 0,
-            blue: 0,
-            yellow: 0
-        }
-        // Gehe durch alle Pixel
-        for (let i = 0; i < data.length; i += 4) {
-            // Erhalte die RGB-Werte jedes Pixels
-            const r = data[i]
-            const g = data[i + 1]
-            const b = data[i + 2]
-            // Bestimme die Farbe jedes Pixels
-            // Annahme: Rot, wenn r > g und r > b
-            // Grün, wenn g > r und g > b
-            // Blau, wenn b > r und b > g
-            // Gelb, wenn r > b und g > b
-            let color = ""
-            if (r > g && r > b) {
-                color = "red"
-            } else if (g > r && g > b) {
-                color = "green"
-            } else if (b > r && b > g) {
-                color = "blue"
-            } else if (r > 200 && g > 200 && b < 100) {
-                color = "yellow"
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Zufälliges Bild generieren</title>
+        <style>
+            canvas {
+                border: 1px solid #000;
             }
-            // Zähle die Anzahl der Pixel jeder Farbe
-            if (color) {
-                colors[color]++
+        </style>
+    </head>
+    <body>
+        <canvas id="randomImageCanvas" width="800" height="800"></canvas>
+        <button id="downloadButton">Bild herunterladen</button>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                generateRandomImage()
+            })
+
+            function generateRandomImage() {
+                var canvas = document.getElementById("randomImageCanvas")
+                var context = canvas.getContext("2d")
+
+                // Anzahl der Formen
+                var numberOfShapes = 50
+
+                for (var i = 0; i < numberOfShapes; i++) {
+                    // Zufällige Form (Rechteck oder Kreis)
+                    var shape = Math.random() < 0.5 ? "rectangle" : "circle"
+
+                    // Zufällige Position
+                    var x = Math.random() * canvas.width
+                    var y = Math.random() * canvas.height
+
+                    // Zufällige Größe
+                    var size = Math.random() * 50 + 200
+
+                    // Zufällige Farbe (Rot, Grün, Blau oder Gelb)
+                    var color = getRandomColor()
+
+                    // Zeichne die Form
+                    if (shape === "rectangle") {
+                        context.fillStyle = color
+                        context.fillRect(x, y, size, size)
+                    } else {
+                        context.beginPath()
+                        context.arc(x, y, size / 2, 0, 2 * Math.PI)
+                        context.fillStyle = color
+                        context.fill()
+                    }
+                }
             }
-        }
-        // Berechne die Farbanteile in Prozent
-        const total = width * height
-        const percentages = {}
-        for (let color in colors) {
-            percentages[color] = (colors[color] / total) * 100
-        }
-        // Gib die Farbanteile aus
-        console.log(percentages)
-    }
-</script>
+
+            function getRandomColor() {
+                var colors = ["red", "green", "blue", "yellow"]
+                var randomIndex = Math.floor(Math.random() * colors.length)
+                return colors[randomIndex]
+            }
+
+            // Funktion zum Herunterladen des Canvas-Inhalts als PNG
+            function downloadCanvas() {
+                var canvas = document.getElementById("randomImageCanvas")
+                var downloadButton = document.getElementById("downloadButton")
+                var imageData = canvas.toDataURL("image/png")
+                downloadButton.href = imageData
+                downloadButton.download = "zufallsbild.png"
+            }
+
+            // Füge einen Event Listener zum Button hinzu
+            document.getElementById("downloadButton").addEventListener("click", downloadCanvas)
+        </script>
+    </body>
+</html>

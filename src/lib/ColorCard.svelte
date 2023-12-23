@@ -116,3 +116,9 @@
 
     <img bind:this={image} src={`/cards/${cardId}.png`} alt="Abstract shapes" class="border border-5 rounded-5 w-100" />
 </div>
+
+{#if cardId === "007"}
+    <div class="mt-3">
+        Erstellt mit dem <a href="https://sp-studio.de" target="_blank" rel="noopener noreferrer">SP-Studio</a>.
+    </div>
+{/if}

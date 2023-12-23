@@ -9,11 +9,32 @@
     let currentColorCard: ColorCardId | undefined = undefined
     let row: ColorCardId[] = []
 
-    let doubt = false
+    let doubt = true
     let padding = 0
 
-    const COLOR_CARDS: ColorCardId[] = ["001", "002", "003", "004", "005", "006", "007", "008", "009", "010"]
-    // const COLOR_CARDS: ColorCardId[] = ["010"]
+    const COLOR_CARDS: ColorCardId[] = [
+        "001",
+        "002",
+        "003",
+        "004",
+        "005",
+        "006",
+        "007",
+        "008",
+        "009",
+        "010",
+        "011",
+        "012",
+        "013",
+        "014",
+        "015",
+        "016",
+        "017",
+        "018",
+        "019",
+        "020"
+    ]
+    // const COLOR_CARDS: ColorCardId[] = ["020"]
 
     let colorCards: ColorCardId[] = [...COLOR_CARDS]
 
@@ -64,10 +85,10 @@
         colorCards = [...colorCards]
     }
 
-    // onMount(() => {
-    //     newRound()
-    //     newTurn()
-    // })
+    onMount(() => {
+        newRound()
+        newTurn()
+    })
 </script>
 
 <div class="container-fluid">
