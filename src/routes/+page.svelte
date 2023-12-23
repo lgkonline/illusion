@@ -9,7 +9,7 @@
     let currentColorCard: ColorCardId | undefined = undefined
     let row: ColorCardId[] = []
 
-    let doubt = true
+    let doubt = false
     let padding = 0
 
     const COLOR_CARDS: ColorCardId[] = [
@@ -85,10 +85,10 @@
         colorCards = [...colorCards]
     }
 
-    onMount(() => {
-        newRound()
-        newTurn()
-    })
+    // onMount(() => {
+    //     newRound()
+    //     newTurn()
+    // })
 </script>
 
 <div class="container-fluid">
