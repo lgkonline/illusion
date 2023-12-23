@@ -4,6 +4,12 @@ $success: green;
 $info: rgb(0, 132, 255);
 $warning: rgb(255, 225, 0);
 
+$border-radius: 0.5rem;
+$border-radius-sm: 0.25rem;
+$border-radius-lg: 1rem;
+$border-radius-xl: 1.5rem;
+$border-radius-xxl: 2rem;
+
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
 
 .bi {
